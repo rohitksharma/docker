@@ -49,19 +49,26 @@ clean:
 # The ELASTIC_VERSION specified in this file might not have been released yet,
 # so you may need to override it.
 from-release: clean
-	$(TEDI) build --fact=elastic_version:$(ELASTIC_VERSION)
+	$(TEDI) build --fact=elastic_version:$(ELASTIC_VERSION) \
+	              --fact=image_tag:$(ELASTIC_VERSION)
 
 # Build images from snapshots on snapshots.elastic.co
 from-snapshot: clean
-	$(TEDI) build --asset-set=remote_snapshot --fact=image_tag:$(ELASTIC_VERSION)-SNAPSHOT
+	$(TEDI) build --asset-set=remote_snapshot \
+                      --fact=elastic_version:$(ELASTIC_VERSION) \
+	              --fact=image_tag:$(ELASTIC_VERSION)-SNAPSHOT
 
 # Build release images from within the Release Manager.
 release-manager-release: clean
-	$(TEDI) build --asset-set=local_release
+	$(TEDI) build --asset-set=local_release \
+	              --fact=elastic_version:$(ELASTIC_VERSION) \
+	              --fact=image_tag:$(ELASTIC_VERSION)
 
 # Build snapshot images from within the Release Manager.
 release-manager-snapshot: clean
-	$(TEDI) build --asset-set=local_snapshot --fact=image_tag:$(ELASTIC_VERSION)-SNAPSHOT
+	$(TEDI) build --asset-set=local_snapshot \
+	              --fact=elastic_version:$(ELASTIC_VERSION) \
+	              --fact=image_tag:$(ELASTIC_VERSION)-SNAPSHOT
 
 # The tests are written in Python. Make a virtualenv to handle the dependencies.
 venv: requirements.txt
