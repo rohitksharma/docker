@@ -2,12 +2,13 @@ SHELL = /bin/bash
 ELASTIC_VERSION := $(shell ./bin/elastic-version)
 
 TEDI_DEBUG ?= false
+TEDI_VERSION ?= 0.7
 TEDI ?= docker run --rm -it \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $(PWD):/mnt \
   -v $(PWD)/../..:/release-manager \
   -e TEDI_DEBUG=$(TEDI_DEBUG) \
-  docker.elastic.co/tedi/tedi:0.6
+  docker.elastic.co/tedi/tedi:$(TEDI_VERSION)
 
 export PATH := ./bin:./venv/bin:$(PATH)
 
