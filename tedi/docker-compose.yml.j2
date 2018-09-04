@@ -1,8 +1,28 @@
 ---
-# This file was generated from the template at templates/docker-compose.yml.j2
+# This file was generated from the template at tedi/docker-compose.yml.j2
 version: '2.1'
 services:
   elasticsearch1:
+    hostname: elasticsearch1
+    environment:
+      # Try setting a few options with environment variables.
+      - cluster.name=docker-test-cluster
+      - node.name=docker-test-node-1
+      # Also try a parameter containing an underscore character.
+      - thread_pool.search.queue_size=500
+      # Test setting max heap to a non default value with environment variables.
+      - "ES_JAVA_OPTS=-Xms1152M -Xmx1152M"
+      # Env vars not followed by a dot, should not be parsed by the wrapper script.
+      - irrelevantsetting=foo
+      # Capitalized or all-caps env vars should not be parsed either.
+      - NonESRelatedVariable=bar
+      # Tell ES to use mlockall to prevent it from swapping out.
+      - bootstrap.memory_lock=true
+      # Avoid test failures due to small disks.
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    # Expose Elasticsearch to the host system, so that the test suite can see it.
+    ports:
+      - 9200:9200
     container_name: elasticsearch1
     image: {{ docker_registry }}/elasticsearch/elasticsearch-{{ image_flavor }}:{{ image_tag }}
     mem_limit: 4g
@@ -17,13 +37,21 @@ services:
       memlock:
         soft: -1
         hard: -1
-    # DATA_VOLUME{1,2} are defined in tests/conftest.py
     volumes:
       - ${DATA_VOLUME1}:/usr/share/elasticsearch/data
 
   elasticsearch2:
     container_name: elasticsearch2
+    hostname: elasticsearch2
     environment:
+      - cluster.name=docker-test-cluster
+      - node.name=docker-test-node-2
+      - thread_pool.search.queue_size=500
+      - "ES_JAVA_OPTS=-Xms1152M -Xmx1152M"
+      - irrelevantsetting=foo
+      - NonESRelatedVariable=bar
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
       - discovery.zen.ping.unicast.hosts=elasticsearch1
       - node.master=false
     image: {{ docker_registry }}/elasticsearch/elasticsearch-{{ image_flavor }}:{{ image_tag }}

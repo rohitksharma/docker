@@ -38,7 +38,7 @@ lint: venv
 
 clean:
 	$(foreach FLAVOR, $(IMAGE_FLAVORS), \
-	  COMPOSE_FILE=".tedi/render/elasticsearch-$(FLAVOR)/docker-compose.yml"; \
+	  COMPOSE_FILE=".tedi/build/elasticsearch-$(FLAVOR)/docker-compose.yml"; \
 	  if [[ -f $$COMPOSE_FILE ]]; then \
 	    docker-compose -f $$COMPOSE_FILE down && docker-compose -f $$COMPOSE_FILE rm -f -v; \
 	  fi; \
@@ -48,12 +48,12 @@ clean:
 # Build images from releases on www.elastic.co
 # The ELASTIC_VERSION specified in this file might not have been released yet,
 # so you may need to override it.
-from-release: clean
+from-release:
 	$(TEDI) build --fact=elastic_version:$(ELASTIC_VERSION) \
 	              --fact=image_tag:$(ELASTIC_VERSION)
 
 # Build images from snapshots on snapshots.elastic.co
-from-snapshot: clean
+from-snapshot:
 	$(TEDI) build --asset-set=remote_snapshot \
                       --fact=elastic_version:$(ELASTIC_VERSION) \
 	              --fact=image_tag:$(ELASTIC_VERSION)-SNAPSHOT
