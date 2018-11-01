@@ -30,4 +30,4 @@ Vagrant.configure('2') do |config|
     grep -qF 'vagrant - nofile 65536' /etc/security/limits.conf || echo 'vagrant - nofile 65536' >> /etc/security/limits.conf
   SHELL
 
-end
+end2
