@@ -69,7 +69,7 @@ RUN for PLUGIN in {{ ingest_plugins }}; do \
       elasticsearch-plugin install --batch "$PLUGIN"; done
 {%- endif %}
 
-COPY --chown=1000:0 elasticsearch.yml log4j2.properties config/
+COPY --chown=10000:0 elasticsearch.yml log4j2.properties config/
 
 USER 0
 
