@@ -1,3 +1,13 @@
 **/.*.swp
 **/.ropeproject
+**/.cache
 *.pyc
+/venv
+/docker-compose-*.yml
+build/elasticsearch/Dockerfile
+build/elasticsearch/Dockerfile-*
+build/elasticsearch/elasticsearch*.tar.gz
+tests/docker-compose*.yml
+/snapshots
+.pytest_cache
+.vagrant

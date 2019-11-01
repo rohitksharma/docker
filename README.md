@@ -1,18 +1,39 @@
 ## Description
 
-This is the official Elasticsearch image created by Elastic Inc.
+This repository contains the official [Elasticsearch](https://www.elastic.co/products/elasticsearch) Docker image from [Elastic](https://www.elastic.co/).
 
 Documentation can be found on the [Elastic web site](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html).
 
+**Make sure you have read all the instructions properly, just "skimming through" will not help you.**
+
 ## Supported Docker versions
 
-The images have been tested on Docker 1.12.
+The images have been tested on Docker 17.03.1-ce.
+
+## Requirements
+
+A full build and test requires:
+
+- Docker
+- GNU Make
+- Python 3.5 with Virtualenv
+
+## Running a build
+To build an image with a released version of Elasticsearch, check out the corresponding
+branch for the version, and run Make while specifying the exact version desired.
+Like this:
+```
+git checkout 6.3
+ELASTIC_VERSION=6.3.1 make
+```
+
+To build an image with the latest nightly snapshot of Elasticsearch, run:
+```
+make from-snapshot
+```
 
 ## Contributing, issues and testing
 
-This image is built on top of [elasticsearch-alpine-base](https://github.com/elastic/elasticsearch-alpine-base) and is based on [alpine:latest](https://hub.docker.com/_/alpine/).
-The complete set of Elasticsearch tests is [regularly executed](https://elasticsearch-ci.elastic.co/view/Elasticsearch/job/elastic+elasticsearch+master+dockeralpine-periodic/) against it.
+Acceptance tests for the image are located in the test directory, and can be invoked with `make test`.
 
-To report issues, please open an issue in [GitHub](https://github.com/elastic/elasticsearch-docker/issues).
-
-To contribute, please fork and create a PR. Please ensure that tests pass by running `make`. Tests require [docker-compose](https://docs.docker.com/compose/install/).
+This image is built on [CentOS 7](https://github.com/CentOS/sig-cloud-instance-images/blob/CentOS-7/docker/Dockerfile).
